@@ -1,0 +1,197 @@
+import msvcrt
+
+# print("Herzlich Willkommen beim Kaffee-Automaten!")
+# print("Bitte wählen Sie aus:")
+# print("(k) Kaffee") # \n -> macht eine neue Zeile
+# print("(e) Espresso")
+# print("(s) Service-Mode")
+# auswahl = input()
+# print(f"Sie haben sich für Auswahl {auswahl} entschieden.")
+
+# if auswahl == "k":
+#    print("Sie haben sich für die Auswahl Kaffee entschieden.")
+# elif auswahl == "e":
+#    print("Sie haben sich für die Auswahl Espresso entschieden.")
+# else:
+#    print("Sie haben sich für die Auswahl Service-Mode entschieden.")
+
+
+## Kaffeeautomat Teil 3
+
+# Vorratsmengen
+kaffee_bohnen = 1000
+espresso_bohnen = 1000
+wasser = 5000
+milch = 1000
+zucker = 500
+
+# Eine Tasse :
+kaffee_pulver = 5
+espresso_pulver = 5
+wasser_kaffee = 125
+wasser_espresso = 25
+zucker_tasse = 3
+milch_tasse = 30
+
+# Preise :
+grundpreis = 1.0
+aufpreis = 0.1
+
+while True:
+    print("Herzlich Willkommen beim Kaffee-Automaten!")
+    print("Preis pro Tasse: ")
+    print("Kaffee oder Espresso: 1 Euro")
+    print("Milch oder Zucker: 0.1 Euro")
+
+    print("Bitte wählen Sie aus:")
+    print("(k) Kaffee")
+    print("(e) Espresso")
+    print("(s) Service-Mode")
+
+# Auswahl
+    auswahl = input("Ihre Auswahl: ")
+    if auswahl == "k":
+        print("Sie haben sich für die Auswahl Kaffee k entschieden")
+        auswahl_zucker = input("Möchten Sie Zucker (j/n)? :")
+        if auswahl_zucker == "j":
+            print("Sie haben sich für Zucker entschieden")
+        elif auswahl_zucker == "n":
+            print("Sie möchten keinen Zucker")
+        else:
+            print("Falsche Eingabe")
+            taste = input("Drücken Sie eine beliebige Taste: ")
+            continue
+        auswahl_milch = input("Möchten Sie Milch (j/n) :")
+        if auswahl_milch == "j":
+            print("Sie haben sich für Milch entschieden")
+        elif auswahl_milch == "n":
+            print("Sie möchten keine Milch")
+        else:
+            print("Falsche Eingabe")
+            taste = input("Drücken Sie eine beliebige Taste: ")
+            continue
+
+# Mengen-überprüfung :
+        print("Jetzt überprüfen wir die Mengen")
+        if kaffee_pulver > kaffee_bohnen:
+            print("Vorgang abgebrochen! Unzureichender Vorrat von Kaffee Bohnen")
+            taste = input("Drücken Sie eine beliebige Taste: ")
+            continue
+        elif wasser_kaffee > wasser:
+            print("Vorgang abgebrochen! Unzureichender Vorrat von Kaffee Bohnen")
+            taste = input("Drücken Sie eine beliebige Taste: ")
+            continue
+        elif auswahl_zucker == "j":
+            if zucker_tasse > zucker:
+                print("Vorgang abgebrochen! Unzureichender Vorrat von Kaffee Bohnen")
+                taste = input("Drücken Sie eine beliebige Taste: ")
+                continue
+        elif auswahl_milch == "j":
+            if milch_tasse > milch:
+                print("Vorgang abgebrochen! Unzureichender Vorrat von Kaffee Bohnen")
+                taste = input("Drücken Sie eine beliebige Taste: ")
+                continue
+
+# Preis
+        print("Jetzt berechnen wir den Preis")
+        getränkepreis = grundpreis
+        if auswahl_zucker == "j":
+            getränkepreis += aufpreis
+        if auswahl_milch == "j":
+            getränkepreis += aufpreis
+
+        # getränkepreis = str(getränkepreis)
+        print(f"Bitte {getränkepreis:.2f}€ eingeben und ENTER drücken")
+
+        geldbetrag = input("Bitte den Betrag eingeben: ")
+        #    if geldbetrag.isdigit(): # isdigit akzeptiert nur int-Werte
+        #        break
+        #    else:
+        #        print("Bitte eine Zahl eingeben")
+        #        continue
+
+        if geldbetrag > str(getränkepreis):
+            print("Ihr Getränk wird zubereitet")
+            print(f"Bitte {(float(geldbetrag) - getränkepreis):.2f}€ Rückgeld und das Getränk entnehmen und eine Taste drücken")
+            taste = input()
+
+# Aktualisierung der Vorratsmengen
+            kaffee_bohnen -= kaffee_pulver
+            wasser -= wasser_kaffee
+            if auswahl_zucker == "j":
+                zucker -= zucker_tasse
+            if auswahl_milch == "j":
+                milch -= milch_tasse
+            print("Danke für Ihre Bestellung!")
+            continue
+
+        elif geldbetrag < str(getränkepreis):
+            print("Zu wenig Geld, Bestellung abgebrochen \nDrücken Sie eine beliebige Taste")
+            taste = input()
+            continue
+
+
+    elif auswahl == "e":
+        print("Sie haben sich für die Auswahl Espresso e entschieden")
+
+
+
+
+
+
+    elif auswahl == "s":
+        service_passwort = ["1", "2", "3", "4", "5", "6"]
+        print("Service-Interface")
+        print("----------------------------")
+        print("Bitte geben Sie das Passwort ein: ")
+
+        eingabe = []
+
+        for i in range(6):
+            zeichen = msvcrt.getch() #
+            zeichen = zeichen.decode() # Umwanldung von Bytes in Str
+            eingabe.append(zeichen)
+            print("*", end="", flush=True)
+
+        print()
+
+        if eingabe == service_passwort:
+            print("Richtiges Passwort, Zugriff gewährt!")
+            print("------------------------------------")
+            print("Noch vorhandene Mangen:")
+            print(f"Kaffee: {kaffee_bohnen}g , Milch: {milch}ml")
+            print(f"Espresso: {espresso_bohnen}g , Wasser: {wasser}ml")
+            print(f"Zucker: {zucker}g")
+            print("----------------------------")
+            print("Mengen pro Tasse:")
+            print(f"Kaffee: {kaffee_pulver}g , Milch: {milch_tasse}ml")
+            print(f"Espresso: {espresso_pulver}g , Wasser für Kaffee: {wasser_kaffee}ml")
+            print(f"Zucker: {zucker_tasse}g , Wasser für Espresso {wasser_espresso}ml")
+
+
+        else:
+
+            print("Falsches Passwort! Zugang zum Service-Interface verweigert!")
+            print("----------------------------")
+            taste = input("Drücken Sie eine beliebige Taste: ")
+
+            continue
+
+
+    else:
+        continue
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
